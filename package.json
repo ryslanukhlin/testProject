@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node server",
+    "start": "nodemon server",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run start\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -18,8 +21,13 @@
   },
   "homepage": "https://github.com/ryslanukhlin/testProject#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-validator": "^6.9.2",
     "mongoose": "^5.11.11",
+    "nodemon": "^2.0.7",
     "socket.io": "^3.0.5"
   }
 }
