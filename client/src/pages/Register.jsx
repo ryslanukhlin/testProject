@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable guard-for-in */
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
@@ -11,6 +12,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 import config from '../config';
 
 const useStyle = makeStyles((theme) => ({
@@ -34,8 +37,7 @@ function Register() {
     password: '',
     repeatPassword: '',
   });
-
-  // eslint-disable-next-line no-unused-vars
+  const [registerStatus, setRegStatus] = React.useState(false);
   const [errFrom, setErrorsForm] = React.useState({
     name: { status: false, msg: '' },
     famuly: { status: false, msg: '' },
@@ -74,12 +76,20 @@ function Register() {
       });
       setErrorsForm({ ...obj, ...errors });
     }
+    if (response.status === 200) {
+      setRegStatus(true);
+    }
   };
 
   return (
     <section className="register">
       <form className={classes.form} noValidate>
         <Container maxWidth="md">
+          <Snackbar open={registerStatus} autoHideDuration={6000} onClose={() => setRegStatus(false)}>
+            <Alert onClose={() => setRegStatus(false)} severity="success">
+              registration was successful
+            </Alert>
+          </Snackbar>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
