@@ -12,6 +12,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 function NavBar() {
   const history = useHistory();
   const classes = useStyles();
+  const isAuth = useSelector((state) => state.userReducer.isAuth);
   const [drawerIsActive, setDrawerIsActive] = React.useState(false);
   const navItems = [
     {
@@ -51,7 +53,7 @@ function NavBar() {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar color="red">
           <IconButton edge="start" className={classes.menuButton} aria-label="menu" onClick={() => setDrawerIsActive(true)}>
             <MenuIcon />
@@ -59,8 +61,16 @@ function NavBar() {
           <Typography variant="h6" className={classes.title}>
             News
           </Typography>
-          <Button onClick={toPatch.bind(this, '/login')}>Login</Button>
-          <Button onClick={toPatch.bind(this, '/register')}>Register</Button>
+          {!isAuth ? (
+            <>
+              <Button onClick={toPatch.bind(this, '/login')}>Login</Button>
+              <Button onClick={toPatch.bind(this, '/register')}>Register</Button>
+            </>
+          ) : (
+            <>
+              <Button onClick={toPatch.bind(this, '/account')}>Account</Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <SwipeableDrawer anchor="left" open={drawerIsActive} onClose={() => setDrawerIsActive(false)} onOpen={() => setDrawerIsActive(true)}>

@@ -1,6 +1,7 @@
 const Router = require('express').Router();
 const { body } = require('express-validator');
 const registerControlelr = require('../controller/registerController');
+const loginControlelr = require('../controller/loginController');
 const User = require('../model/user');
 
 Router.post('/register',
@@ -20,5 +21,7 @@ Router.post('/register',
         else return true;
     })
 , registerControlelr);
+
+Router.post('/login', loginControlelr);
 
 module.exports = Router;

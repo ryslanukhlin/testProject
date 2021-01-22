@@ -3,7 +3,8 @@ const app = express()
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const config = require('./config');
-const authRouter = require('./router/authRouter')
+const authRouter = require('./router/authRouter');
+const productEouter = require('./router/productRouter');
 const mongoose = require('mongoose');
 var cors = require('cors');
 
@@ -15,13 +16,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use('/api', authRouter);
+app.use('/api', authRouter, productEouter);
 
 const PORT = config.serverUri || 8000;
  
 const start = async () => {
     try {
-        mongoose.connect(config.mongoUri, {
+        await mongoose.connect(config.mongoUri, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });

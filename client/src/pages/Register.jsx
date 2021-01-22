@@ -2,7 +2,6 @@
 /* eslint-disable guard-for-in */
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import './Register.css';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -14,6 +13,8 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import { Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import config from '../config';
 
 const useStyle = makeStyles((theme) => ({
@@ -27,6 +28,7 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 function Register() {
+  const isAuth = useSelector((state) => state.userReducer.isAuth);
   const classes = useStyle();
   const [showPassword, setShow] = React.useState(false);
   const [form, setFrom] = React.useState({
@@ -37,6 +39,7 @@ function Register() {
     password: '',
     repeatPassword: '',
   });
+
   const [registerStatus, setRegStatus] = React.useState(false);
   const [errFrom, setErrorsForm] = React.useState({
     name: { status: false, msg: '' },
@@ -81,12 +84,14 @@ function Register() {
     }
   };
 
+  if (isAuth) return <Redirect to="/" />;// is auth to redirect home
+
   return (
     <section className="register">
       <form className={classes.form} noValidate>
         <Container maxWidth="md">
           <Snackbar open={registerStatus} autoHideDuration={6000} onClose={() => setRegStatus(false)}>
-            <Alert onClose={() => setRegStatus(false)} severity="success">
+            <Alert onClose={() => setRegStatus(false)} severity="success" variant="filled">
               registration was successful
             </Alert>
           </Snackbar>

@@ -1,9 +1,13 @@
-function counterReducer(state = { value: 0 }, action) {
+const defaultState = {
+  isAuth: false,
+  user: null,
+  jwt: null,
+};
+
+function counterReducer(state = defaultState, action) {
   switch (action.type) {
-    case 'counter/incremented':
-      return { value: state.value + 1 };
-    case 'counter/decremented':
-      return { value: state.value - 1 };
+    case 'LOGIN':
+      return { isAuth: true, user: action.payload.user, jwt: action.payload.token };
     default:
       return state;
   }
