@@ -14,6 +14,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import config from '../config';
 
 const useStyle = makeStyles((theme) => ({
@@ -31,6 +33,7 @@ function Login() {
   const dispatch = useDispatch();
   const classes = useStyle();
   const [showPassword, setShow] = React.useState(false);
+  const [remember, setRemember] = React.useState(false);
   const [form, setFrom] = React.useState({
     email: '',
     password: '',
@@ -55,6 +58,9 @@ function Login() {
     else {
       const json = await response.json();
       dispatch({ type: 'LOGIN', payload: json });
+      if (remember) {
+        localStorage.setItem('jwt', json.token);
+      }
     }
   };
 
@@ -108,6 +114,12 @@ function Login() {
               />
             </Grid>
           </Grid>
+          <FormControlLabel
+            style={{ marginTop: 20 }}
+            onClick={() => setRemember(true)}
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
           <Button
             type="button"
             fullWidth

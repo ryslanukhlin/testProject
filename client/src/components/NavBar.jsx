@@ -69,6 +69,7 @@ function NavBar() {
           ) : (
             <>
               <Button onClick={toPatch.bind(this, '/account')}>Account</Button>
+              <Button onClick={toPatch.bind(this, '/basket')}>Basket</Button>
             </>
           )}
         </Toolbar>

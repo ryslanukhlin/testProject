@@ -9,6 +9,16 @@ const createJWT = (payload) => {
 }
 
 module.exports = async (req, res) => {
+    if(req.body.token) {
+        const token = jwt.verify(req.body.token, config.secretKey);
+        const user = await User.findOne({ _id: token.id });
+        if(user){
+            return res.status(200).json({
+                token: createJWT({id: user.id}),
+                user: user
+            })
+        }
+    }
     const user = await User.findOne({email: req.body.email});
     if(!user) 
         return res.status(400).json({error: "user is not defined"});

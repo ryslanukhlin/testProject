@@ -1,11 +1,14 @@
 const defaultState = {
   products: [],
+  basket: [],
 };
 
 function productsReducer(state = defaultState, action) {
   switch (action.type) {
     case 'GETPRODCTS':
-      return { products: action.payload };
+      return { ...state, products: action.payload };
+    case 'ADDBASKET':
+      return { ...state, basket: [...state.basket, action.payload] };
     default:
       return state;
   }
