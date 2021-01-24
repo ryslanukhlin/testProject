@@ -1,3 +1,5 @@
+/* eslint-disable no-const-assign */
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
 import { Delete } from '@material-ui/icons';
+import { Typography } from '@material-ui/core';
 
 const useStyle = makeStyles({
   basket: {
@@ -23,6 +26,7 @@ function Basket() {
   const classes = useStyle();
   const basket = useSelector((state) => state.productsReducer.basket);
   const dispatch = useDispatch();
+  const commonPrice = basket.reduce((sum, item) => sum + item.price, 0);
 
   const removeBasket = (index) => {
     const localStorageBasket = JSON.parse(localStorage.getItem('basket'));
@@ -71,6 +75,9 @@ function Basket() {
                   </TableBody>
                 </Table>
               </Grid>
+              <Typography variant="h4" style={{ textAlign: 'right', width: '100%' }}>
+                Common price: {commonPrice}
+              </Typography>
             </Grid>
           </Container>
         )}
