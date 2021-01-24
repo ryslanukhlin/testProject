@@ -62,7 +62,7 @@ function ItemCard({ item, index }) {
   return (
     // eslint-disable-next-line no-underscore-dangle
     // eslint-disable-next-line react/prop-types
-    <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
       <Snackbar
         open={errAddBasketItem}
         autoHideDuration={6000}

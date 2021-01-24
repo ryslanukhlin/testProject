@@ -16,6 +16,8 @@ function productsReducer(state = defaultState, action) {
         ...state.basket.slice(action.payload + 1),
       ];
       return { ...state, basket: newArr };
+    case 'CLEARBASKET':
+      return { ...state, basket: [] };
     default:
       return state;
   }

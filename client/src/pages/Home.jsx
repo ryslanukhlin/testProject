@@ -22,7 +22,8 @@ function Home() {
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           {products.map((item, index) => (
-            <ItemCard item={item} index={index} />
+            // eslint-disable-next-line no-underscore-dangle
+            <ItemCard key={item._id} item={item} index={index} />
           ))}
         </Grid>
       </Container>
