@@ -13,6 +13,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Badge } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -30,6 +31,7 @@ function NavBar() {
   const history = useHistory();
   const classes = useStyles();
   const isAuth = useSelector((state) => state.userReducer.isAuth);
+  const basket = useSelector((state) => state.productsReducer.basket);
   const [drawerIsActive, setDrawerIsActive] = React.useState(false);
   const navItems = [
     {
@@ -69,7 +71,9 @@ function NavBar() {
           ) : (
             <>
               <Button onClick={toPatch.bind(this, '/account')}>Account</Button>
-              <Button onClick={toPatch.bind(this, '/basket')}>Basket</Button>
+              <Badge badgeContent={basket.length} color="secondary">
+                <Button onClick={toPatch.bind(this, '/basket')}>Basket</Button>
+              </Badge>
             </>
           )}
         </Toolbar>

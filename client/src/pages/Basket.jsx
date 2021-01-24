@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,6 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton';
+import { Delete } from '@material-ui/icons';
 
 const useStyle = makeStyles({
   basket: {
@@ -19,6 +22,17 @@ const useStyle = makeStyles({
 function Basket() {
   const classes = useStyle();
   const basket = useSelector((state) => state.productsReducer.basket);
+  const dispatch = useDispatch();
+
+  const removeBasket = (index) => {
+    const localStorageBasket = JSON.parse(localStorage.getItem('basket'));
+    if (basket) {
+      localStorageBasket.splice(index, 1);
+      localStorage.setItem('basket', JSON.stringify(localStorageBasket));
+    }
+    dispatch({ type: 'REMOVEBASKET', payload: index });
+  };
+
   return (
     <section className={classes.basket}>
       {basket.length === 0
@@ -35,17 +49,23 @@ function Basket() {
                       <TableCell>name</TableCell>
                       <TableCell align="right">count</TableCell>
                       <TableCell align="right">price</TableCell>
+                      <TableCell align="right" />
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {basket.map((item) => (
+                    {basket.map((item, index) => (
                       // eslint-disable-next-line no-underscore-dangle
-                      <TableRow key={item.name}>
+                      <TableRow key={item._id}>
                         <TableCell component="th" scope="row">
                           {item.name}
                         </TableCell>
                         <TableCell align="right">1</TableCell>
                         <TableCell align="right">{item.price}</TableCell>
+                        <TableCell align="right">
+                          <IconButton onClick={removeBasket.bind(this, index)}>
+                            <Delete />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

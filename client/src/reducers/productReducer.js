@@ -9,6 +9,13 @@ function productsReducer(state = defaultState, action) {
       return { ...state, products: action.payload };
     case 'ADDBASKET':
       return { ...state, basket: [...state.basket, action.payload] };
+    case 'REMOVEBASKET':
+      // eslint-disable-next-line no-case-declarations
+      const newArr = [
+        ...state.basket.slice(0, action.payload),
+        ...state.basket.slice(action.payload + 1),
+      ];
+      return { ...state, basket: newArr };
     default:
       return state;
   }
